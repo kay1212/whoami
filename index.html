@@ -19,6 +19,8 @@
     <div id="resultContainer">
         <p>Result:</p>
         <div id="result"></div>
+        <p>
+        <button onclick="doItAgain()">Do it again!</button>
     </div>
     <hr>
     <p>Welcome to make small donations! If your credit card requires monthly spending to maintain waived annual fees, consider using the subscription option as well.</p>
@@ -44,6 +46,10 @@
                 $('#resultContainer').fadeIn();
             });
         });
+
+        function doItAgain() {
+            window.location.href = './';
+        }
     </script>
 
     <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 URL Encoder</title>
+</head>
+<body>
+    <h1>Base64 URL Encoder</h1>
+    <p>輸入文字並加密後顯示於 URL 與頁面上：</p>
+    <input type="text" id="inputText" placeholder="輸入文字">
+    <button onclick="encodeText()">加密並更新 URL</button>
+    <p>結果：</p>
+    <div id="result"></div>
+
+    <script>
+        function encodeText() {
+            // 取得輸入的文字
+            const input = document.getElementById('inputText').value;
+
+            // 進行 Base64 加密
+            const encoded = btoa(input);
+
+            // 更新網址
+            const newUrl = `${window.location.origin}${window.location.pathname}?text=${encoded}`;
+            window.history.pushState(null, '', newUrl);
+
+            // 在頁面上顯示加密後的文字
+            document.getElementById('result').innerText = `加密後的文字: ${encoded}`;
+        }
+
+        // 如果 URL 中包含加密文字，則解密並顯示
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const text = params.get('text');
+            if (text) {
+                document.getElementById('result').innerText = `加密後的文字: ${text}`;
+            }
+        };
+    </script>
+</body>
+</html>

@@ -13,8 +13,8 @@
 </head>
 <body>
     <h1>Who am I?</h1>
-    <p>input ID</p>
-    <input type="text" id="inputText" placeholder="input ID">
+    <p>Input ID</p>
+    <input type="text" id="inputText" placeholder="Input ID">
     <button id="generateButton">GET!</button>
     <div id="resultContainer">
         <p>Result:</p>
@@ -38,7 +38,7 @@
                 const resultUrl = `result.html?text=${encoded}`;
 
                 // 顯示結果區域與結果 URL
-                $('#result').html(`<a href="${resultUrl}" target="_blank">${resultUrl}</a>`);
+                $('#result').html(`<a href="${resultUrl}" target="_blank">Go !</a>`);
                 $('#resultContainer').fadeIn();
             });
         });

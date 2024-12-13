@@ -1,33 +1,39 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Base64 URL Encoder - Input</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <h1>Who am I?</h1>
     <p>input ID</p>
     <input type="text" id="inputText" placeholder="input ID">
-    <button onclick="redirectToResult()">GET!</button>
+    <button id="generateButton">GET!</button>
+    <p>Result:</p>
+    <div id="result"></div>
 
     <script>
-        function redirectToResult() {
-            // 取得輸入的文字
-            const input = document.getElementById('inputText').value;
+        $(document).ready(function() {
+            $('#generateButton').click(function() {
+                const input = $('#inputText').val();
 
-            // 檢查是否有輸入文字
-            if (!input) {
-                alert('Please enter an ID!');
-                return;
-            }
+                if (!input) {
+                    alert('Please enter an ID!');
+                    return;
+                }
 
-            // 進行 Base64 加密
-            const encoded = btoa(input);
+                // 進行 Base64 加密
+                const encoded = btoa(input);
 
-            // 導向到結果頁面
-            const resultUrl = `result.html?text=${encoded}`;
-            window.location.href = resultUrl;
-        }
+                // 生成結果 URL
+                const resultUrl = `${window.location.origin}${window.location.pathname}?text=${encoded}`;
+
+                // 顯示結果 URL
+                $('#result').html(`<a href="${resultUrl}" target="_blank">${resultUrl}</a>`);
+            });
+        });
     </script>
 </body>
 </html>

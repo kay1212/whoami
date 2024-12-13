@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Who am I? - Result</title>
+    <title>Base64 URL Encoder - Result</title>
+    <style>
+        button {
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body>
     <h1>Result</h1>
-    <p>Your ID is:</p>
+    <p>Your decoded ID is:</p>
     <canvas id="resultCanvas"></canvas>
-    <button onclick="goBack()">Again</button>
+    <button onclick="goBack()">Back to Input</button>
 
     <script>
         // 如果 URL 中包含加密文字，則解密並顯示結果為圖片
@@ -24,7 +29,7 @@
                 const ctx = canvas.getContext('2d');
 
                 canvas.width = 400;
-                canvas.height = 200;
+                canvas.height = 50;
 
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);

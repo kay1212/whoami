@@ -11,6 +11,8 @@
     <p>input ID</p>
     <input type="text" id="inputText" placeholder="input ID">
     <button id="generateButton">GET!</button>
+    <p>Result:</p>
+    <div id="result"></div>
 
     <script>
         $(document).ready(function() {
@@ -25,9 +27,11 @@
                 // 進行 Base64 加密
                 const encoded = btoa(input);
 
-                // 生成結果 URL，跳轉至 result.html
+                // 生成結果 URL
                 const resultUrl = `result.html?text=${encoded}`;
-                window.location.href = resultUrl;
+
+                // 顯示結果 URL 為超連結
+                $('#result').html(`<a href="${resultUrl}" target="_blank">${resultUrl}</a>`);
             });
         });
     </script>

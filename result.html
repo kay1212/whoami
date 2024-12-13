@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 URL Encoder - Result</title>
+</head>
+<body>
+    <h1>Result</h1>
+    <p>Your encoded URL is:</p>
+    <div id="result"></div>
+
+    <script>
+        // 如果 URL 中包含加密文字，則顯示結果
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const text = params.get('text');
+            if (text) {
+                const decoded = atob(text);
+                const resultDiv = document.getElementById('result');
+                const currentUrl = `${window.location.origin}${window.location.pathname}?text=${text}`;
+                resultDiv.innerHTML = `<a href="${currentUrl}" target="_blank">${currentUrl}</a>`;
+            } else {
+                document.getElementById('result').innerText = 'No data provided.';
+            }
+        };
+    </script>
+</body>
+</html>

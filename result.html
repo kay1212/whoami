@@ -14,7 +14,9 @@
     <h1>Result</h1>
     <canvas id="resultCanvas"></canvas>
     <p>
-    <button onclick="goBack()">Do it again!</button>
+        <button onclick="doItAgain()">Do it again!</button>
+        <button onclick="copyLink()">Copy link</button>
+    </p>
 
     <script>
         // 如果 URL 中包含加密文字，則解密並顯示結果為圖片
@@ -48,10 +50,26 @@
             }
         };
 
-        function goBack() {
-            window.location.href = 'index.html';
+        function doItAgain() {
+            window.location.href = 'whoami/';
+        }
+
+        function copyLink() {
+            const params = new URLSearchParams(window.location.search);
+            const text = params.get('text');
+            if (text) {
+                const link = `${window.location.origin}${window.location.pathname}?text=${text}`;
+                navigator.clipboard.writeText(link).then(() => {
+                    alert('Link copied to clipboard!');
+                }).catch(err => {
+                    alert('Failed to copy link: ' + err);
+                });
+            } else {
+                alert('No link to copy.');
+            }
         }
     </script>
+
     <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
     <script>
       kofiWidgetOverlay.draw('kaychan123', {

@@ -6,17 +6,23 @@
     <title>Base64 URL Encoder</title>
 </head>
 <body>
-    <h1>Base64 URL Encoder</h1>
-    <p>輸入文字並加密後顯示於 URL 與頁面上：</p>
-    <input type="text" id="inputText" placeholder="輸入文字">
-    <button onclick="encodeText()">加密並更新 URL</button>
-    <p>結果：</p>
+    <h1>Who am I?</h1>
+    <p>input ID</p>
+    <input type="text" id="inputText" placeholder="input ID">
+    <button onclick="encodeText()">GET!</button>
+    <p>Result:</p>
     <div id="result"></div>
 
     <script>
         function encodeText() {
             // 取得輸入的文字
             const input = document.getElementById('inputText').value;
+
+            // 檢查是否有輸入文字
+            if (!input) {
+                alert('Please enter an ID!');
+                return;
+            }
 
             // 進行 Base64 加密
             const encoded = btoa(input);
@@ -25,8 +31,9 @@
             const newUrl = `${window.location.origin}${window.location.pathname}?text=${encoded}`;
             window.history.pushState(null, '', newUrl);
 
-            // 在頁面上顯示加密後的文字
-            document.getElementById('result').innerText = `加密後的文字: ${encoded}`;
+            // 在頁面上顯示加密後的超連結
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `<a href="${newUrl}" target="_blank">${newUrl}</a>`;
         }
 
         // 如果 URL 中包含加密文字，則解密並顯示
@@ -34,7 +41,11 @@
             const params = new URLSearchParams(window.location.search);
             const text = params.get('text');
             if (text) {
-                document.getElementById('result').innerText = `加密後的文字: ${text}`;
+                const decoded = atob(text);
+                const resultDiv = document.getElementById('result');
+                const currentUrl = `${window.location.origin}${window.location.pathname}?text=${text}`;
+                resultDiv.innerHTML = `<a href="${currentUrl}" target="_blank">${currentUrl}</a>`;
+                document.getElementById('inputText').value = decoded;
             }
         };
     </script>

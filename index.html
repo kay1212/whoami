@@ -5,14 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Who am I?</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #resultContainer {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <h1>Who am I?</h1>
     <p>input ID</p>
     <input type="text" id="inputText" placeholder="input ID">
     <button id="generateButton">GET!</button>
-    <p>Result:</p>
-    <div id="result"></div>
+    <div id="resultContainer">
+        <p>Result:</p>
+        <div id="result"></div>
+    </div>
 
     <script>
         $(document).ready(function() {
@@ -30,8 +37,9 @@
                 // 生成結果 URL
                 const resultUrl = `result.html?text=${encoded}`;
 
-                // 顯示結果 URL 為超連結
+                // 顯示結果區域與結果 URL
                 $('#result').html(`<a href="${resultUrl}" target="_blank">${resultUrl}</a>`);
+                $('#resultContainer').fadeIn();
             });
         });
     </script>

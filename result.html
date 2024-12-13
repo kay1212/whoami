@@ -8,6 +8,9 @@
         button {
             margin-left: 10px;
         }
+        canvas {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -19,7 +22,20 @@
     </p>
     <hr>
     <p>Welcome to make small donations! If your credit card requires monthly spending to maintain waived annual fees, consider using the subscription option as well.</p>
+
     <script>
+        let linkArea = null;
+
+        // 檢查字符串是否為有效的 URL
+        function isValidURL(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+
         // 如果 URL 中包含加密文字，則解密並顯示結果為圖片
         window.onload = function() {
             const params = new URLSearchParams(window.location.search);
@@ -31,23 +47,50 @@
                 const canvas = document.getElementById('resultCanvas');
                 const ctx = canvas.getContext('2d');
 
-                canvas.width = 400;
-                canvas.height = 50;
+                ctx.font = '20px Arial';
+                const textMetrics = ctx.measureText(decoded);
+                const textWidth = textMetrics.width;
+                const textHeight = 20; // 近似行高
+
+                canvas.width = textWidth + 20;
+                canvas.height = textHeight + 20;
 
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                ctx.fillStyle = '#000000';
+                ctx.fillStyle = isValidURL(decoded) ? '#0000EE' : '#000000'; // 如果是 URL，顯示藍色
                 ctx.font = '20px Arial';
-                ctx.fillText(decoded, 10, 50);
+                ctx.fillText(decoded, 10, 30);
+
+                if (isValidURL(decoded)) {
+                    linkArea = {
+                        x: 10,
+                        y: 10,
+                        width: textWidth,
+                        height: textHeight
+                    };
+
+                    canvas.addEventListener('click', function(event) {
+                        const rect = canvas.getBoundingClientRect();
+                        const x = event.clientX - rect.left;
+                        const y = event.clientY - rect.top;
+
+                        if (x >= linkArea.x && x <= linkArea.x + linkArea.width &&
+                            y >= linkArea.y && y <= linkArea.y + linkArea.height) {
+                            window.open(decoded, '_blank');
+                        }
+                    });
+                }
             } else {
                 const canvas = document.getElementById('resultCanvas');
                 const ctx = canvas.getContext('2d');
+                canvas.width = 400;
+                canvas.height = 50;
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 ctx.fillStyle = '#ff0000';
                 ctx.font = '20px Arial';
-                ctx.fillText('No data provided.', 10, 50);
+                ctx.fillText('No data provided.', 10, 30);
             }
         };
 

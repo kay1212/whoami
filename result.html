@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,7 +18,7 @@
             if (text) {
                 const decoded = atob(text);
                 const resultDiv = document.getElementById('result');
-                const currentUrl = `${window.location.origin}${window.location.pathname}?text=${text}`;
+                const currentUrl = `${window.location.origin}/result.html?text=${text}`;
                 resultDiv.innerHTML = `<a href="${currentUrl}" target="_blank">${currentUrl}</a>`;
             } else {
                 document.getElementById('result').innerText = 'No data provided.';

@@ -7,21 +7,20 @@
 </head>
 <body>
     <h1>Result</h1>
-    <p>Your encoded URL is:</p>
-    <div id="result"></div>
+    <p>Your decoded ID is:</p>
+    <div id="decodedResult"></div>
 
     <script>
-        // 如果 URL 中包含加密文字，則顯示結果
+        // 如果 URL 中包含加密文字，則解密並顯示結果
         window.onload = function() {
             const params = new URLSearchParams(window.location.search);
             const text = params.get('text');
             if (text) {
                 const decoded = atob(text);
-                const resultDiv = document.getElementById('result');
-                const currentUrl = `${window.location.origin}/result.html?text=${text}`;
-                resultDiv.innerHTML = `<a href="${currentUrl}" target="_blank">${currentUrl}</a>`;
+                const resultDiv = document.getElementById('decodedResult');
+                resultDiv.innerText = decoded;
             } else {
-                document.getElementById('result').innerText = 'No data provided.';
+                document.getElementById('decodedResult').innerText = 'No data provided.';
             }
         };
     </script>

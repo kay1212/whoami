@@ -82,16 +82,10 @@
     <hr>
 
     <script>
-        let linkArea = null;
-
-        // Check if string is a valid URL
+        // Check if string is a valid URL (support HTTP/HTTPS)
         function isValidURL(string) {
-            try {
-                new URL(string);
-                return true;
-            } catch (_) {
-                return false;
-            }
+            const pattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w- ./?%&=]*)?$/i;
+            return pattern.test(string);
         }
 
         // Display decoded result in canvas
@@ -101,50 +95,62 @@
             const canvas = document.getElementById('resultCanvas');
             const ctx = canvas.getContext('2d');
 
+            // Get device pixel ratio
+            const ratio = window.devicePixelRatio || 1;
+
             if (text) {
                 const decoded = atob(text);
 
                 ctx.font = '20px Arial';
+                ctx.textBaseline = 'top'; // Ensure text aligns correctly
                 const textMetrics = ctx.measureText(decoded);
                 const textWidth = textMetrics.width;
-                const textHeight = 20; // Approximate line height
+                const textHeight = 24; // Adjusted line height
 
-                canvas.width = textWidth + 20;
-                canvas.height = textHeight + 20;
+                // Set Canvas size based on device pixel ratio
+                canvas.width = (textWidth + 20) * ratio;
+                canvas.height = (textHeight + 20) * ratio;
+
+                // Set CSS size
+                canvas.style.width = `${textWidth + 20}px`;
+                canvas.style.height = `${textHeight + 20}px`;
+
+                // Scale the context to handle high DPI screens
+                ctx.scale(ratio, ratio);
 
                 ctx.fillStyle = '#ffffff';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillRect(0, 0, canvas.width / ratio, canvas.height / ratio);
 
                 ctx.fillStyle = isValidURL(decoded) ? '#0000EE' : '#000000'; // Blue for URLs
-                ctx.fillText(decoded, 10, 30);
+                ctx.fillText(decoded, 10, 10);
 
                 if (isValidURL(decoded)) {
-                    linkArea = {
-                        x: 10,
-                        y: 10,
-                        width: textWidth,
-                        height: textHeight
-                    };
-
-                    canvas.addEventListener('click', function(event) {
-                        const rect = canvas.getBoundingClientRect();
-                        const x = event.clientX - rect.left;
-                        const y = event.clientY - rect.top;
-
-                        if (x >= linkArea.x && x <= linkArea.x + linkArea.width &&
-                            y >= linkArea.y && y <= linkArea.y + linkArea.height) {
-                            window.open(decoded, '_blank');
-                        }
+                    canvas.style.cursor = 'pointer';
+                    canvas.addEventListener('click', function() {
+                        const url = decoded.startsWith('http') ? decoded : `http://${decoded}`;
+                        window.open(url, '_blank');
                     });
                 }
             } else {
-                canvas.width = 400;
-                canvas.height = 50;
+                const defaultWidth = 400;
+                const defaultHeight = 50;
+
+                // Set Canvas size based on device pixel ratio
+                canvas.width = defaultWidth * ratio;
+                canvas.height = defaultHeight * ratio;
+
+                // Set CSS size
+                canvas.style.width = `${defaultWidth}px`;
+                canvas.style.height = `${defaultHeight}px`;
+
+                // Scale the context to handle high DPI screens
+                ctx.scale(ratio, ratio);
+
                 ctx.fillStyle = '#ffffff';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillRect(0, 0, defaultWidth, defaultHeight);
                 ctx.fillStyle = '#ff0000';
                 ctx.font = '20px Arial';
-                ctx.fillText('No data provided.', 10, 30);
+                ctx.fillText('No data provided.', 10, 10);
             }
         };
 

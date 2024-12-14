@@ -5,11 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Who am I? - Result</title>
     <style>
-        button {
-            margin-left: 10px;
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+
+        h1 {
+            background-color: #00b9fe;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+        }
+
         canvas {
+            border: 1px solid #ddd;
+            margin-top: 20px;
             cursor: pointer;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            background-color: #00b9fe;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        button:hover {
+            background-color: #008dcf;
+        }
+
+        hr {
+            margin: 30px 0;
+            border: 0;
+            border-top: 1px solid #ddd;
+        }
+
+        .donation-note {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .footer {
+            margin-top: auto;
+            padding: 10px 0;
+            background-color: #f4f4f9;
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+
+        .footer p {
+            margin: 5px 0;
         }
     </style>
 </head>
@@ -18,15 +77,14 @@
     <canvas id="resultCanvas"></canvas>
     <p>
         <button onclick="doItAgain()">Do it again!</button>
-        <button onclick="copyLink()">Copy Result Page Url.</button>
+        <button onclick="copyLink()">Copy Result Page URL</button>
     </p>
     <hr>
-    <p>Welcome to make small donations! If your credit card requires monthly spending to maintain waived annual fees, consider using the subscription option as well.</p>
 
     <script>
         let linkArea = null;
 
-        // 檢查字符串是否為有效的 URL
+        // Check if string is a valid URL
         function isValidURL(string) {
             try {
                 new URL(string);
@@ -36,21 +94,20 @@
             }
         }
 
-        // 如果 URL 中包含加密文字，則解密並顯示結果為圖片
+        // Display decoded result in canvas
         window.onload = function() {
             const params = new URLSearchParams(window.location.search);
             const text = params.get('text');
+            const canvas = document.getElementById('resultCanvas');
+            const ctx = canvas.getContext('2d');
+
             if (text) {
                 const decoded = atob(text);
-
-                // 在 canvas 上顯示解碼結果
-                const canvas = document.getElementById('resultCanvas');
-                const ctx = canvas.getContext('2d');
 
                 ctx.font = '20px Arial';
                 const textMetrics = ctx.measureText(decoded);
                 const textWidth = textMetrics.width;
-                const textHeight = 20; // 近似行高
+                const textHeight = 20; // Approximate line height
 
                 canvas.width = textWidth + 20;
                 canvas.height = textHeight + 20;
@@ -58,8 +115,7 @@
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                ctx.fillStyle = isValidURL(decoded) ? '#0000EE' : '#000000'; // 如果是 URL，顯示藍色
-                ctx.font = '20px Arial';
+                ctx.fillStyle = isValidURL(decoded) ? '#0000EE' : '#000000'; // Blue for URLs
                 ctx.fillText(decoded, 10, 30);
 
                 if (isValidURL(decoded)) {
@@ -82,8 +138,6 @@
                     });
                 }
             } else {
-                const canvas = document.getElementById('resultCanvas');
-                const ctx = canvas.getContext('2d');
                 canvas.width = 400;
                 canvas.height = 50;
                 ctx.fillStyle = '#ffffff';
@@ -123,14 +177,21 @@
         'floating-chat.donateButton.text-color': '#fff'
       });
     </script>
-    <!-- Google tag (gtag.js) -->
+
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SFSMNS5GR5"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-    
       gtag('config', 'G-SFSMNS5GR5');
     </script>
+
+    <div class="footer">
+        <p class="donation-note">
+            Welcome to make small donations! If your credit card requires monthly spending to maintain waived annual fees, consider using the subscription option as well.
+        </p>
+        <p>&copy; 2024 kay1212. All rights reserved.</p>
+    </div>
 </body>
 </html>

@@ -6,43 +6,165 @@
     <title>Who am I?</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            background-color: #00b9fe;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        .input-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #inputText {
+            padding: 10px;
+            font-size: 16px;
+            width: auto;
+            max-width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        #generateButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #00b9fe;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        #generateButton:hover {
+            background-color: #008dcf;
+        }
+
         #resultContainer {
             display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #result a {
+            color: #00b9fe;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #result a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            background-color: #00b9fe;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #008dcf;
+        }
+
+        hr {
+            margin: 0;
+            border: 0;
+            border-top: 1px solid #ddd;
+        }
+
+        .donation-note {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .donation-note strong {
+            color: #333;
+        }
+
+        .footer {
+            margin-top: auto;
+            padding: 10px 0;
+            background-color: #f4f4f9;
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+
+        .footer p {
+            margin: 5px 0;
         }
     </style>
 </head>
 <body>
     <h1>Who am I?</h1>
-    <p>Input ID</p>
-    <input type="text" id="inputText" placeholder="Input ID">
-    <button id="generateButton">GET!</button>
+    <p>Input your ID below:</p>
+    <div class="input-container">
+        <input type="text" id="inputText" placeholder="Enter your ID">
+        <button id="generateButton">GET!</button>
+    </div>
+
     <div id="resultContainer">
-        <p>Result:</p>
+        <p><strong>Result:</strong></p>
         <div id="result"></div>
         <p>
-        <button onclick="doItAgain()">Do it again!</button>
+            <button onclick="doItAgain()">Do it again!</button>
+        </p>
     </div>
-    <hr>
-    <p>Welcome to make small donations! If your credit card requires monthly spending to maintain waived annual fees, consider using the subscription option as well.</p>
 
     <script>
         $(document).ready(function() {
             $('#generateButton').click(function() {
-                const input = $('#inputText').val();
+                const input = $('#inputText').val().trim();
 
                 if (!input) {
                     alert('Please enter an ID!');
                     return;
                 }
 
-                // 進行 Base64 加密
+                // Perform Base64 encoding
                 const encoded = btoa(input);
 
-                // 生成結果 URL
+                // Generate result URL
                 const resultUrl = `result.html?text=${encoded}`;
 
-                // 顯示結果區域與結果 URL
-                $('#result').html(`<a href="${resultUrl}" target="_blank">Go !</a>`);
+                // Display the result section and URL
+                $('#result').html(`<a href="${resultUrl}" target="_blank">Go!</a>`);
                 $('#resultContainer').fadeIn();
             });
         });
@@ -61,14 +183,21 @@
         'floating-chat.donateButton.text-color': '#fff'
       });
     </script>
-    <!-- Google tag (gtag.js) -->
+
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SFSMNS5GR5"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-    
       gtag('config', 'G-SFSMNS5GR5');
     </script>
+
+    <div class="footer">
+        <p class="donation-note">
+            Welcome to make small donations! If your credit card requires monthly spending to maintain waived annual fees, consider using the subscription option as well.
+        </p>
+        <p>&copy; 2024 kay1212. All rights reserved.</p>
+    </div>
 </body>
 </html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>AIDAChat Widget 測試</title>
+
+  <script type="application/javascript">
+    window.aidaSettings = {
+      projectid: "671f51c2d140e50013cf8435", // 從 AIDA 後台取得
+      widgetTitle: "測試客服系統",
+      welcomeTitle: "您好！",
+      welcomeMsg: "這是本地測試的 AIDAChat Widget 😀",
+      themeColor: "#87BC65",
+      align: "right",
+      userFullname: "Kay Chan",
+      customAttributes: {
+        user_Email: "demo@example.com",
+        user_Country: "TWN"
+      }
+    };
+
+    (function(d, s, id) {
+      var w = window;
+      var i = function() { i.c(arguments); };
+      i.q = [];
+      i.c = function(args) { i.q.push(args); };
+      w.AidaWidget = i;
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.async = true;
+      js.src = "https://office.aidachat.ai/widget/launch.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    })(document, 'script', 'aida-js');
+  </script>
+</head>
+
+<body>
+  <h1>AIDAChat Widget 測試頁面</h1>
+  <p>開啟頁面後右下角會出現聊天按鈕 💬</p>
+</body>
+</html>
